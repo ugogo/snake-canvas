@@ -95,14 +95,6 @@ function updateState(nextState) {
   }
 }
 
-function onKeyUp({ key }) {
-  const matchs = extractDirection(key);
-
-  if (matchs) {
-    updateDirection(matchs[0]);
-  }
-}
-
 function start() {
   updateDirection('right');
   updateState(STATES.PLAY);
@@ -122,6 +114,26 @@ function play() {
 
   updateState(STATES.PLAY);
   animateBits(savedBits);
+}
+
+function toggleState() {
+  if (state === STATES.PAUSE) {
+    play();
+  } else {
+    pause();
+  }
+}
+
+function onKeyUp({ code }) {
+  const directionMatchs = extractDirection(code);
+
+  if (code === 'Space') {
+    toggleState();
+  }
+
+  if (directionMatchs) {
+    updateDirection(directionMatchs[0]);
+  }
 }
 
 document.addEventListener('keyup', onKeyUp);

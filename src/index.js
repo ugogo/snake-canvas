@@ -26,7 +26,12 @@ const baseBits = [
   [1, 3],
 ];
 
+const playBtn = document.querySelector('.iconBtn--play');
+const pauseBtn = document.querySelector('.iconBtn--pause');
+
 let direction = DIRECTIONS.RIGHT;
+let state;
+let savedBits;
 
 function drawBit([x, y]) {
   ctx.fillRect(x, y, BIT_SIZE, BIT_SIZE);
@@ -37,7 +42,13 @@ function drawBits(bits) {
 }
 
 function animateBits(bits) {
+  savedBits = bits;
+
   setTimeout(() => {
+    if (state === STATES.PAUSE) {
+      return;
+    }
+
     bits.shift();
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -72,9 +83,8 @@ function updateDirection(dir) {
   dirBtn.classList.add('is-active');
 }
 
-function updateState(state) {
-  const playBtn = document.querySelector('.iconBtn--play');
-  const pauseBtn = document.querySelector('.iconBtn--pause');
+function updateState(nextState) {
+  state = nextState;
 
   if (state === STATES.PLAY) {
     playBtn.classList.add('is-active');
@@ -101,10 +111,26 @@ function start() {
   animateBits(baseBits);
 }
 
+function pause() {
+  updateState(STATES.PAUSE);
+}
+
+function play() {
+  if (state === STATES.PLAY) {
+    return;
+  }
+
+  updateState(STATES.PLAY);
+  animateBits(savedBits);
+}
+
 document.addEventListener('keyup', onKeyUp);
 
 document.querySelectorAll('.iconBtn--arrow').forEach(e => {
   e.addEventListener('click', () => updateDirection(e.dataset.dir));
 });
+
+playBtn.addEventListener('click', play);
+pauseBtn.addEventListener('click', pause);
 
 start();

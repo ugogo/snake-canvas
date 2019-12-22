@@ -5,9 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Snake canvas</title>
+    <style>
+      :root {
+        --color1: #2a2b2a;
+        --color2: #706c61;
+        --color3: #f8f4e3;
+        --color4: #e5446d;
+        --color5: #ff8966;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        background-color: var(--color3);
+      }
+
+      #canvas {
+        border: 5px solid var(--color1);
+        background-color: white;
+      }
+    </style>
   </head>
   <body>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="400" height="400"></canvas>
     <script src="index.js"></script>
   </body>
 </html>

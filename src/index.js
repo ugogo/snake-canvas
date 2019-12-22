@@ -6,7 +6,7 @@ ctx.scale(10, 10);
 const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 400;
 const BIT_SIZE = 1;
-const DELAY = 1000;
+const DELAY = 300;
 
 const DIRECTIONS = {
   UP: [0, -1],
@@ -16,9 +16,9 @@ const DIRECTIONS = {
 };
 
 const baseBits = [
-  [10, 10],
-  [10, 11],
-  [10, 12],
+  [1, 1],
+  [1, 2],
+  [1, 3],
 ];
 
 let direction = DIRECTIONS.RIGHT;

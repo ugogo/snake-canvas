@@ -7,13 +7,18 @@
     <title>Snake canvas</title>
     <link rel="stylesheet" href="index.css">
   <body>
+    <div class="states">
+      <button class="iconBtn iconBtn--play">Play</button>
+      <button class="iconBtn iconBtn--pause">Pause</button>
+    </div>
+
     <canvas id="canvas" width="400" height="400"></canvas>
 
     <div class="arrows">
-      <button data-dir="up" class="arrow arrow--up">Up</button>
-      <button data-dir="left" class="arrow arrow--left">Left</button>
-      <button data-dir="down" class="arrow arrow--down">Down</button>
-      <button data-dir="right" class="arrow arrow--right">Right</button>
+      <button data-dir="up" class="iconBtn iconBtn--arrow iconBtn--arrow-up">Up</button>
+      <button data-dir="left" class="iconBtn iconBtn--arrow iconBtn--arrow-left">Left</button>
+      <button data-dir="down" class="iconBtn iconBtn--arrow iconBtn--arrow-down">Down</button>
+      <button data-dir="right" class="iconBtn iconBtn--arrow iconBtn--arrow-right">Right</button>
     </div>
 
     <script src="index.js"></script>

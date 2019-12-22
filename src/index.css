@@ -17,25 +17,25 @@ body {
 }
 
 #canvas {
+  margin: 3rem 0;
   border: 5px solid var(--color1);
   background-color: white;
 }
 
 .arrows {
-  margin-top: 3rem;
   font-size: 0;
   text-align: center;
 }
 
-.arrow {
-  --size: 4rem;
+.iconBtn {
+  --size: 3.5rem;
 
   display: inline-block;
   width: var(--size);
   height: var(--size);
   border: 0;
   padding: 0;
-  margin: 0.2rem;
+  margin: 0.3rem;
   border-radius: 4px;
   background-size: cover;
   background-color: transparent;
@@ -43,24 +43,33 @@ body {
   opacity: 0.7;
 }
 
-.arrow--active {
+.iconBtn.is-active {
   opacity: 1;
 }
 
-.arrow--up {
+.iconBtn--arrow-up {
   display: block;
   margin-left: auto;
   margin-right: auto;
   background-image: url('./assets/arrow-up.svg');
 }
 
-.arrow--right {
+.iconBtn--arrow-right {
   background-image: url('./assets/arrow-right.svg');
 }
 
-.arrow--down {
+.iconBtn--arrow-down {
   background-image: url('./assets/arrow-down.svg');
 }
-.arrow--left {
+
+.iconBtn--arrow-left {
   background-image: url('./assets/arrow-left.svg');
+}
+
+.iconBtn--play {
+  background-image: url('./assets/play.svg');
+}
+
+.iconBtn--pause {
+  background-image: url('./assets/pause.svg');
 }

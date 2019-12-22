@@ -15,6 +15,11 @@ const DIRECTIONS = {
   LEFT: [-1, 0],
 };
 
+const STATES = {
+  PLAY: 'play',
+  PAUSE: 'pause',
+};
+
 const baseBits = [
   [1, 1],
   [1, 2],
@@ -57,14 +62,27 @@ function extractDirection(key) {
 function updateDirection(dir) {
   direction = DIRECTIONS[dir.toUpperCase()];
 
-  const activeBtn = document.querySelector('.arrow--active');
-  const dirBtn = document.querySelector(`.arrow.arrow--${dir.toLowerCase()}`);
+  const activeBtn = document.querySelector('.iconBtn--arrow.is-active');
+  const dirBtn = document.querySelector(`.iconBtn--arrow-${dir.toLowerCase()}`);
 
   if (activeBtn) {
-    activeBtn.classList.remove('arrow--active');
+    activeBtn.classList.remove('is-active');
   }
 
-  dirBtn.classList.add('arrow--active');
+  dirBtn.classList.add('is-active');
+}
+
+function updateState(state) {
+  const playBtn = document.querySelector('.iconBtn--play');
+  const pauseBtn = document.querySelector('.iconBtn--pause');
+
+  if (state === STATES.PLAY) {
+    playBtn.classList.add('is-active');
+    pauseBtn.classList.remove('is-active');
+  } else {
+    playBtn.classList.remove('is-active');
+    pauseBtn.classList.add('is-active');
+  }
 }
 
 function onKeyUp({ key }) {
@@ -77,13 +95,15 @@ function onKeyUp({ key }) {
 
 function start() {
   updateDirection('right');
+  updateState(STATES.PLAY);
+
   drawBits(baseBits);
   animateBits(baseBits);
 }
 
 document.addEventListener('keyup', onKeyUp);
 
-document.querySelectorAll('.arrow').forEach(e => {
+document.querySelectorAll('.iconBtn--arrow').forEach(e => {
   e.addEventListener('click', () => updateDirection(e.dataset.dir));
 });
 

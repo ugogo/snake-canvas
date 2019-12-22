@@ -1,12 +1,11 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-ctx.scale(10, 10);
-
 const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 400;
 const BIT_SIZE = 1;
 const DELAY = 300;
+const SCALE = 10;
 
 const DIRECTIONS = {
   UP: [0, -1],
@@ -30,15 +29,34 @@ const playBtn = document.querySelector('.iconBtn--play');
 const pauseBtn = document.querySelector('.iconBtn--pause');
 
 let direction = DIRECTIONS.RIGHT;
+let candy;
 let state;
 let savedBits;
 
+function getCanvasRandomPoint(max, min = 0) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function drawCandy(
+  x = getCanvasRandomPoint(CANVAS_WIDTH / SCALE),
+  y = getCanvasRandomPoint(CANVAS_HEIGHT / SCALE),
+) {
+  candy = [x, y];
+  ctx.fillStyle = '#e5446d';
+  ctx.fillRect(x, y, BIT_SIZE, BIT_SIZE);
+}
+
 function drawBit([x, y]) {
+  ctx.fillStyle = '#2a2b2a';
   ctx.fillRect(x, y, BIT_SIZE, BIT_SIZE);
 }
 
 function drawBits(bits) {
   bits.forEach(drawBit);
+}
+
+function clearBit([x, y]) {
+  ctx.clearRect(x, y, 1, 1);
 }
 
 function animateBits(bits) {
@@ -49,9 +67,7 @@ function animateBits(bits) {
       return;
     }
 
-    bits.shift();
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
+    const tail = bits.shift();
     const nextBits = [
       ...bits,
       [
@@ -60,6 +76,7 @@ function animateBits(bits) {
       ],
     ];
 
+    clearBit(tail);
     drawBits(nextBits);
     animateBits(nextBits);
   }, DELAY);
@@ -99,6 +116,7 @@ function start() {
   updateDirection('right');
   updateState(STATES.PLAY);
 
+  drawCandy();
   drawBits(baseBits);
   animateBits(baseBits);
 }
@@ -135,6 +153,8 @@ function onKeyUp({ code }) {
     updateDirection(directionMatchs[0]);
   }
 }
+
+ctx.scale(SCALE, SCALE);
 
 document.addEventListener('keyup', onKeyUp);
 

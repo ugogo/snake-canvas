@@ -9,13 +9,11 @@ const BIT_SIZE = 1;
 const DELAY = 1000;
 
 const DIRECTIONS = {
-  toTop: [0, -1],
-  toRight: [1, 0],
-  toBottom: [0, 1],
-  toLeft: [-1, 0],
+  UP: [0, -1],
+  RIGHT: [1, 0],
+  DOWN: [0, 1],
+  LEFT: [-1, 0],
 };
-
-const direction = DIRECTIONS.toRight;
 
 const baseBits = [
   [10, 10],
@@ -23,9 +21,7 @@ const baseBits = [
   [10, 12],
 ];
 
-function debug(data) {
-  console.log(data);
-}
+let direction = DIRECTIONS.RIGHT;
 
 function drawBit([x, y]) {
   ctx.fillRect(x, y, BIT_SIZE, BIT_SIZE);
@@ -38,6 +34,7 @@ function drawBits(bits) {
 function animateBits(bits) {
   setTimeout(() => {
     bits.shift();
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     const nextBits = [
       ...bits,
@@ -47,19 +44,47 @@ function animateBits(bits) {
       ],
     ];
 
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-    // debug(bits);
-    // debug(nextBits);
-
     drawBits(nextBits);
     animateBits(nextBits);
   }, DELAY);
 }
 
+function extractDirection(key) {
+  const rx = /Up|Down|Left|Right/;
+  return rx.exec(key);
+}
+
+function updateDirection(dir) {
+  direction = DIRECTIONS[dir.toUpperCase()];
+
+  const activeBtn = document.querySelector('.arrow--active');
+  const dirBtn = document.querySelector(`.arrow.arrow--${dir.toLowerCase()}`);
+
+  if (activeBtn) {
+    activeBtn.classList.remove('arrow--active');
+  }
+
+  dirBtn.classList.add('arrow--active');
+}
+
+function onKeyUp({ key }) {
+  const matchs = extractDirection(key);
+
+  if (matchs) {
+    updateDirection(matchs[0]);
+  }
+}
+
 function start() {
+  updateDirection('right');
   drawBits(baseBits);
   animateBits(baseBits);
 }
+
+document.addEventListener('keyup', onKeyUp);
+
+document.querySelectorAll('.arrow').forEach(e => {
+  e.addEventListener('click', () => updateDirection(e.dataset.dir));
+});
 
 start();

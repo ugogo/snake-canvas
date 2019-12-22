@@ -13,6 +13,7 @@ module.exports = {
   },
   plugins: ['prettier'],
   rules: {
+    "arrow-parens": 0,
     "prettier/prettier": 2
   },
 };

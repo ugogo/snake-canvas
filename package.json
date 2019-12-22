@@ -1,0 +1,14 @@
+{
+  "name": "snake-canvas",
+  "version": "0.0.1",
+  "main": "src/index.html",
+  "repository": "https://github.com/ugogo/snake-canvas.git",
+  "author": "ugogo <hello@onali-ugo.fr>",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.26.7"
+  },
+  "scripts": {
+    "start": "browser-sync start --server 'src' --files 'src'"
+  }
+}

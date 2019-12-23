@@ -67,15 +67,15 @@ function animateBits(bits) {
       return;
     }
 
-    const head = [
-      bits[bits.length - 1][0] + direction[0],
-      bits[bits.length - 1][1] + direction[1],
-    ];
-
+    const head = bits[bits.length - 1];
     const tail = bits.shift();
-    const nextBits = [...bits, head];
 
-    if (head[0] === candy[0] && head[1] === candy[1]) {
+    const nextHead = [head[0] + direction[0], head[1] + direction[1]];
+    const nextBits = [...bits, nextHead];
+
+    const catchedCandy = head[0] === candy[0] && head[1] === candy[1];
+
+    if (catchedCandy) {
       nextBits.unshift(candy);
       drawCandy();
     }

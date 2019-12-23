@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Snake canvas</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css" />
+  </head>
+
   <body>
     <div class="states">
       <button class="iconBtn iconBtn--play">Play</button>
@@ -15,14 +17,34 @@
     <canvas id="canvas" width="400" height="400"></canvas>
 
     <div class="arrows">
-      <button data-dir="up" class="iconBtn iconBtn--arrow iconBtn--arrow-up">Up</button>
-      <button data-dir="left" class="iconBtn iconBtn--arrow iconBtn--arrow-left">Left</button>
-      <button data-dir="down" class="iconBtn iconBtn--arrow iconBtn--arrow-down">Down</button>
-      <button data-dir="right" class="iconBtn iconBtn--arrow iconBtn--arrow-right">Right</button>
+      <button data-dir="up" class="iconBtn iconBtn--arrow iconBtn--arrow-up">
+        Up
+      </button>
+
+      <button
+        data-dir="left"
+        class="iconBtn iconBtn--arrow iconBtn--arrow-left"
+      >
+        Left
+      </button>
+
+      <button
+        data-dir="down"
+        class="iconBtn iconBtn--arrow iconBtn--arrow-down"
+      >
+        Down
+      </button>
+
+      <button
+        data-dir="right"
+        class="iconBtn iconBtn--arrow iconBtn--arrow-right"
+      >
+        Right
+      </button>
     </div>
 
     <div id="oh-no" class="is-hidden">
-      <img src="./assets/oh-no.jpg" alt="">
+      <img src="./assets/oh-no.jpg" alt="" />
     </div>
 
     <script src="index.js"></script>

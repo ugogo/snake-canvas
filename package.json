@@ -15,6 +15,7 @@
     "prettier": "^1.19.1"
   },
   "scripts": {
-    "start": "browser-sync start --server 'src' --files 'src'"
+    "start": "browser-sync start --server 'src' --files 'src'",
+    "build": "rm -rf -f public/ && cp -r src/ public/"
   }
 }

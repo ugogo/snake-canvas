@@ -25,6 +25,8 @@ const baseBits = [
   [1, 3],
 ];
 
+const scoreContainer = document.querySelector('.score');
+
 const playBtn = document.querySelector('.iconBtn--play');
 const arrowBtns = document.querySelectorAll('.iconBtn--arrow');
 
@@ -32,6 +34,7 @@ const startScreen = document.querySelector('.fs-state--start');
 const ohNoScreen = document.querySelector('.fs-state--ohNo');
 
 let direction = DIRECTIONS.RIGHT;
+let score = 0;
 let candy;
 let state;
 // let savedBits;
@@ -81,6 +84,11 @@ function ohNo() {
   ohNoScreen.classList.remove('is-hidden');
 }
 
+function updateScore() {
+  score += 1;
+  scoreContainer.innerHTML = score;
+}
+
 function animateBits(bits) {
   // savedBits = bits;
 
@@ -105,6 +113,7 @@ function animateBits(bits) {
 
     if (catchedCandy) {
       nextBits.unshift(candy);
+      updateScore();
       drawCandy();
     }
 

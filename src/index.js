@@ -40,8 +40,8 @@ function getCanvasRandomPoint(max, min = 0) {
 }
 
 function drawCandy(
-  x = getCanvasRandomPoint(CANVAS_WIDTH / SCALE),
-  y = getCanvasRandomPoint(CANVAS_HEIGHT / SCALE),
+  x = getCanvasRandomPoint(CANVAS_WIDTH / SCALE - 1),
+  y = getCanvasRandomPoint(CANVAS_HEIGHT / SCALE - 1),
 ) {
   candy = [x, y];
   ctx.fillStyle = '#e5446d';

@@ -9,10 +9,17 @@ const SCALE = 10;
 const LS_SCORE_PATH = '__SNAKE__best-score';
 
 const DIRECTIONS = {
-  UP: [0, -1],
-  RIGHT: [1, 0],
-  DOWN: [0, 1],
-  LEFT: [-1, 0],
+  UP: 'up',
+  RIGHT: 'right',
+  DOWN: 'down',
+  LEFT: 'left',
+};
+
+const DIRECTIONS_AXES = {
+  [DIRECTIONS.UP]: [0, -1],
+  [DIRECTIONS.RIGHT]: [1, 0],
+  [DIRECTIONS.DOWN]: [0, 1],
+  [DIRECTIONS.LEFT]: [-1, 0],
 };
 
 const STATES = {
@@ -40,7 +47,6 @@ let direction = DIRECTIONS.RIGHT;
 let score = 0;
 let candy;
 let state;
-// let savedBits;
 
 function getCanvasRandomPoint(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -115,17 +121,17 @@ function ohNo() {
 }
 
 function animateBits(bits) {
-  // savedBits = bits;
-
   setTimeout(() => {
     if (state === STATES.PAUSE) {
       return;
     }
 
+    const directionAxes = DIRECTIONS_AXES[direction];
+
     const head = bits[bits.length - 1];
     const tail = bits.shift();
 
-    const nextHead = [head[0] + direction[0], head[1] + direction[1]];
+    const nextHead = [head[0] + directionAxes[0], head[1] + directionAxes[1]];
     const nextBits = [...bits, nextHead];
 
     const catchedCandy = head[0] === candy[0] && head[1] === candy[1];
@@ -157,23 +163,42 @@ function extractDirection(key) {
   return rx.exec(key);
 }
 
-function updateDirection(dir) {
-  direction = DIRECTIONS[dir.toUpperCase()];
+function updateDirection(nextDirection) {
+  const oppositeDirections = [
+    [DIRECTIONS.LEFT, DIRECTIONS.RIGHT],
+    [DIRECTIONS.UP, DIRECTIONS.DOWN],
+  ];
+
+  const isMatchingOppositeDirections = oppositeDirections.reduce(
+    (isMatching, [dirA, dirB]) =>
+      isMatching ||
+      (dirA === direction && dirB === nextDirection) ||
+      (dirB === direction && dirA === nextDirection),
+    false,
+  );
+
+  if (isMatchingOppositeDirections) {
+    return;
+  }
+
+  direction = DIRECTIONS[nextDirection.toUpperCase()];
 
   const activeBtn = document.querySelector('.iconBtn--arrow.is-active');
-  const dirBtn = document.querySelector(`.iconBtn--arrow-${dir.toLowerCase()}`);
+  const directionBtn = document.querySelector(
+    `.iconBtn--arrow-${nextDirection.toLowerCase()}`,
+  );
 
   if (activeBtn) {
     activeBtn.classList.remove('is-active');
   }
 
-  dirBtn.classList.add('is-active');
+  directionBtn.classList.add('is-active');
 }
 
 function start() {
   startScreen.classList.add('is-hidden');
 
-  updateDirection('right');
+  updateDirection(DIRECTIONS.RIGHT);
   updateState(STATES.PLAY);
 
   drawCandy();
@@ -181,32 +206,11 @@ function start() {
   animateBits(baseBits);
 }
 
-// function play() {
-//   if (state === STATES.PLAY) {
-//     return;
-//   }
-
-//   updateState(STATES.PLAY);
-//   animateBits(savedBits);
-// }
-
-// function toggleState() {
-//   if (state === STATES.PAUSE) {
-//     play();
-//   } else {
-//     pause();
-//   }
-// }
-
 function onKeyUp({ code }) {
   const directionMatchs = extractDirection(code);
 
-  // if (code === 'Space') {
-  //   toggleState();
-  // }
-
   if (directionMatchs) {
-    updateDirection(directionMatchs[1]);
+    updateDirection(directionMatchs[1].toLowerCase());
   }
 }
 

@@ -14,6 +14,7 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     "arrow-parens": 0,
+    "implicit-arrow-linebreak": 0,
     "max-len": 0,
     "no-multi-spaces": 0,
     "no-param-reassign": 0,

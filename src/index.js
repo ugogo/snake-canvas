@@ -126,7 +126,7 @@ function animateBits(bits) {
 }
 
 function extractDirection(key) {
-  const rx = /Up|Down|Left|Right/;
+  const rx = /^Arrow(Up|Right|Down|Left)$/;
   return rx.exec(key);
 }
 
@@ -177,7 +177,7 @@ function onKeyUp({ code }) {
   }
 
   if (directionMatchs) {
-    updateDirection(directionMatchs[0]);
+    updateDirection(directionMatchs[1]);
   }
 }
 

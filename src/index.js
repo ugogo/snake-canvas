@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 400;
 const BIT_SIZE = 1;
-const SPEED = 300;
+const SPEED = 100;
 const SCALE = 10;
 
 const DIRECTIONS = {

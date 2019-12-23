@@ -29,6 +29,7 @@ body {
   justify-content: center;
   margin: 0;
   background-color: var(--color3);
+  color: var(--color1);
 }
 
 .is-hidden {
@@ -65,6 +66,13 @@ body {
   margin-top: 1.5rem;
   margin-bottom: 0;
   font-family: pixelmix;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.best-score {
+  font-weight: bold;
+  color: black;
 }
 
 .arrows {

@@ -6,6 +6,7 @@ const CANVAS_HEIGHT = 400;
 const BIT_SIZE = 1;
 const SPEED = 100;
 const SCALE = 10;
+const LS_SCORE_PATH = '__SNAKE__best-score';
 
 const DIRECTIONS = {
   UP: [0, -1],
@@ -25,7 +26,9 @@ const baseBits = [
   [1, 3],
 ];
 
-const scoreContainer = document.querySelector('.score');
+const bestScoreContainer = document.querySelector('.best-score');
+const bestScoreInput = document.querySelector('.best-score-value');
+const currentScoreInput = document.querySelector('.current-score-value');
 
 const playBtn = document.querySelector('.iconBtn--play');
 const arrowBtns = document.querySelectorAll('.iconBtn--arrow');
@@ -77,16 +80,38 @@ function pause() {
   updateState(STATES.PAUSE);
 }
 
+function updateScore() {
+  score += 1;
+  currentScoreInput.innerHTML = score;
+}
+
+function getBestScore() {
+  return window.localStorage.getItem(LS_SCORE_PATH);
+}
+
+function saveBestScore() {
+  const bestScore = getBestScore();
+
+  if (!bestScore || bestScore < score) {
+    window.localStorage.setItem(LS_SCORE_PATH, score);
+  }
+}
+
+function displayBestScore() {
+  const bestScore = getBestScore();
+
+  if (bestScore) {
+    bestScoreInput.innerHTML = bestScore;
+    bestScoreContainer.classList.remove('is-hidden');
+  }
+}
+
 function ohNo() {
   pause();
+  saveBestScore();
 
   [...arrowBtns].forEach(disableBtn);
   ohNoScreen.classList.remove('is-hidden');
-}
-
-function updateScore() {
-  score += 1;
-  scoreContainer.innerHTML = score;
 }
 
 function animateBits(bits) {
@@ -194,3 +219,5 @@ arrowBtns.forEach(e => {
 });
 
 playBtn.addEventListener('click', start);
+
+displayBestScore();

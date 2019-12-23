@@ -26,14 +26,15 @@ const baseBits = [
 ];
 
 const playBtn = document.querySelector('.iconBtn--play');
-const pauseBtn = document.querySelector('.iconBtn--pause');
 const arrowBtns = document.querySelectorAll('.iconBtn--arrow');
-const ohNoScreen = document.getElementById('oh-no');
+
+const startScreen = document.querySelector('.fs-state--start');
+const ohNoScreen = document.querySelector('.fs-state--ohNo');
 
 let direction = DIRECTIONS.RIGHT;
 let candy;
 let state;
-let savedBits;
+// let savedBits;
 
 function getCanvasRandomPoint(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -63,14 +64,6 @@ function clearBit([x, y]) {
 
 function updateState(nextState) {
   state = nextState;
-
-  if (state === STATES.PLAY) {
-    playBtn.classList.add('is-active');
-    pauseBtn.classList.remove('is-active');
-  } else {
-    playBtn.classList.remove('is-active');
-    pauseBtn.classList.add('is-active');
-  }
 }
 
 function disableBtn(btn) {
@@ -84,12 +77,12 @@ function pause() {
 function ohNo() {
   pause();
 
-  [playBtn, pauseBtn, ...arrowBtns].forEach(disableBtn);
+  [...arrowBtns].forEach(disableBtn);
   ohNoScreen.classList.remove('is-hidden');
 }
 
 function animateBits(bits) {
-  savedBits = bits;
+  // savedBits = bits;
 
   setTimeout(() => {
     if (state === STATES.PAUSE) {
@@ -144,6 +137,8 @@ function updateDirection(dir) {
 }
 
 function start() {
+  startScreen.classList.add('is-hidden');
+
   updateDirection('right');
   updateState(STATES.PLAY);
 
@@ -152,29 +147,29 @@ function start() {
   animateBits(baseBits);
 }
 
-function play() {
-  if (state === STATES.PLAY) {
-    return;
-  }
+// function play() {
+//   if (state === STATES.PLAY) {
+//     return;
+//   }
 
-  updateState(STATES.PLAY);
-  animateBits(savedBits);
-}
+//   updateState(STATES.PLAY);
+//   animateBits(savedBits);
+// }
 
-function toggleState() {
-  if (state === STATES.PAUSE) {
-    play();
-  } else {
-    pause();
-  }
-}
+// function toggleState() {
+//   if (state === STATES.PAUSE) {
+//     play();
+//   } else {
+//     pause();
+//   }
+// }
 
 function onKeyUp({ code }) {
   const directionMatchs = extractDirection(code);
 
-  if (code === 'Space') {
-    toggleState();
-  }
+  // if (code === 'Space') {
+  //   toggleState();
+  // }
 
   if (directionMatchs) {
     updateDirection(directionMatchs[1]);
@@ -189,7 +184,4 @@ arrowBtns.forEach(e => {
   e.addEventListener('click', () => updateDirection(e.dataset.dir));
 });
 
-playBtn.addEventListener('click', play);
-pauseBtn.addEventListener('click', pause);
-
-start();
+playBtn.addEventListener('click', start);

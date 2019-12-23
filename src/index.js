@@ -126,15 +126,14 @@ function animateBits(bits) {
       return;
     }
 
-    const directionAxes = DIRECTIONS_AXES[direction];
-
     const head = bits[bits.length - 1];
     const tail = bits.shift();
 
+    const directionAxes = DIRECTIONS_AXES[direction];
+    const catchedCandy = head[0] === candy[0] && head[1] === candy[1];
+
     const nextHead = [head[0] + directionAxes[0], head[1] + directionAxes[1]];
     const nextBits = [...bits, nextHead];
-
-    const catchedCandy = head[0] === candy[0] && head[1] === candy[1];
 
     const outOfBoundaries =
       nextHead[0] === CANVAS_WIDTH / SCALE ||
@@ -142,13 +141,19 @@ function animateBits(bits) {
       nextHead[1] === CANVAS_HEIGHT / SCALE ||
       nextHead[1] === -1;
 
+    const isBitingItSelf = bits.reduce(
+      (isBiting, bit) =>
+        isBiting || (nextHead[0] === bit[0] && nextHead[1] === bit[1]),
+      false,
+    );
+
     if (catchedCandy) {
       nextBits.unshift(candy);
       updateScore();
       drawCandy();
     }
 
-    if (outOfBoundaries) {
+    if (outOfBoundaries || isBitingItSelf) {
       ohNo();
     }
 

@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 400;
 const BIT_SIZE = 1;
-const DELAY = 300;
+const SPEED = 300;
 const SCALE = 10;
 
 const DIRECTIONS = {
@@ -27,6 +27,8 @@ const baseBits = [
 
 const playBtn = document.querySelector('.iconBtn--play');
 const pauseBtn = document.querySelector('.iconBtn--pause');
+const arrowBtns = document.querySelectorAll('.iconBtn--arrow');
+const ohNoScreen = document.getElementById('oh-no');
 
 let direction = DIRECTIONS.RIGHT;
 let candy;
@@ -59,6 +61,33 @@ function clearBit([x, y]) {
   ctx.clearRect(x, y, 1, 1);
 }
 
+function updateState(nextState) {
+  state = nextState;
+
+  if (state === STATES.PLAY) {
+    playBtn.classList.add('is-active');
+    pauseBtn.classList.remove('is-active');
+  } else {
+    playBtn.classList.remove('is-active');
+    pauseBtn.classList.add('is-active');
+  }
+}
+
+function disableBtn(btn) {
+  btn.disabled = true;
+}
+
+function pause() {
+  updateState(STATES.PAUSE);
+}
+
+function ohNo() {
+  pause();
+
+  [playBtn, pauseBtn, ...arrowBtns].forEach(disableBtn);
+  ohNoScreen.classList.remove('is-hidden');
+}
+
 function animateBits(bits) {
   savedBits = bits;
 
@@ -75,15 +104,25 @@ function animateBits(bits) {
 
     const catchedCandy = head[0] === candy[0] && head[1] === candy[1];
 
+    const outOfBoundaries =
+      nextHead[0] === CANVAS_WIDTH / SCALE ||
+      nextHead[0] === -1 ||
+      nextHead[1] === CANVAS_HEIGHT / SCALE ||
+      nextHead[1] === -1;
+
     if (catchedCandy) {
       nextBits.unshift(candy);
       drawCandy();
     }
 
+    if (outOfBoundaries) {
+      ohNo();
+    }
+
     clearBit(tail);
     drawBits(nextBits);
     animateBits(nextBits);
-  }, DELAY);
+  }, SPEED);
 }
 
 function extractDirection(key) {
@@ -104,18 +143,6 @@ function updateDirection(dir) {
   dirBtn.classList.add('is-active');
 }
 
-function updateState(nextState) {
-  state = nextState;
-
-  if (state === STATES.PLAY) {
-    playBtn.classList.add('is-active');
-    pauseBtn.classList.remove('is-active');
-  } else {
-    playBtn.classList.remove('is-active');
-    pauseBtn.classList.add('is-active');
-  }
-}
-
 function start() {
   updateDirection('right');
   updateState(STATES.PLAY);
@@ -123,10 +150,6 @@ function start() {
   drawCandy();
   drawBits(baseBits);
   animateBits(baseBits);
-}
-
-function pause() {
-  updateState(STATES.PAUSE);
 }
 
 function play() {
@@ -162,7 +185,7 @@ ctx.scale(SCALE, SCALE);
 
 document.addEventListener('keyup', onKeyUp);
 
-document.querySelectorAll('.iconBtn--arrow').forEach(e => {
+arrowBtns.forEach(e => {
   e.addEventListener('click', () => updateDirection(e.dataset.dir));
 });
 

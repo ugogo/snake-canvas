@@ -14,6 +14,10 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     "arrow-parens": 0,
+    "max-len": 0,
+    "no-multi-spaces": 0,
+    "no-param-reassign": 0,
+    "operator-linebreak": 0,
     "prettier/prettier": 2
   },
 };

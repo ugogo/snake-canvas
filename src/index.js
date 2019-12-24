@@ -118,6 +118,7 @@ function displayBestScore() {
 function ohNo() {
   pause();
   saveBestScore();
+  displayBestScore();
 
   [...arrowBtns].forEach(disableBtn);
   currentScoreContainer.classList.add('is-blinking');

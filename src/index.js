@@ -27,24 +27,19 @@ const STATES = {
   PAUSE: 'pause',
 };
 
-const baseBits = [
-  [1, 1],
-  [1, 2],
-  [1, 3],
-];
-
 const bestScoreContainer = document.querySelector('.best-score');
 const bestScoreInput = document.querySelector('.best-score-value');
+const currentScoreContainer = document.querySelector('.current-score');
 const currentScoreInput = document.querySelector('.current-score-value');
 
 const playBtn = document.querySelector('.iconBtn--play');
 const arrowBtns = document.querySelectorAll('.iconBtn--arrow');
 
 const startScreen = document.querySelector('.fs-state--start');
-const ohNoScreen = document.querySelector('.fs-state--ohNo');
 
-let direction = DIRECTIONS.RIGHT;
-let score = 0;
+let baseBits;
+let direction;
+let score;
 let candy;
 let state;
 
@@ -74,8 +69,16 @@ function clearBit([x, y]) {
   ctx.clearRect(x, y, 1, 1);
 }
 
+function clearBits() {
+  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
+
 function updateState(nextState) {
   state = nextState;
+}
+
+function enableBtn(btn) {
+  btn.disabled = false;
 }
 
 function disableBtn(btn) {
@@ -86,8 +89,8 @@ function pause() {
   updateState(STATES.PAUSE);
 }
 
-function updateScore() {
-  score += 1;
+function updateScore(newScore = score + 1) {
+  score = newScore;
   currentScoreInput.innerHTML = score;
 }
 
@@ -117,7 +120,8 @@ function ohNo() {
   saveBestScore();
 
   [...arrowBtns].forEach(disableBtn);
-  ohNoScreen.classList.remove('is-hidden');
+  currentScoreContainer.classList.add('is-blinking');
+  startScreen.classList.remove('is-hidden');
 }
 
 function animateBits(bits) {
@@ -200,14 +204,30 @@ function updateDirection(nextDirection) {
   directionBtn.classList.add('is-active');
 }
 
+function resetValues() {
+  baseBits = [
+    [1, 1],
+    [1, 2],
+    [1, 3],
+  ];
+
+  [...arrowBtns].forEach(enableBtn);
+  direction = DIRECTIONS.RIGHT;
+
+  updateScore(0);
+}
+
 function start() {
   startScreen.classList.add('is-hidden');
+  currentScoreContainer.classList.remove('is-blinking');
 
-  updateDirection(DIRECTIONS.RIGHT);
-  updateState(STATES.PLAY);
+  clearBits();
+  resetValues();
 
   drawCandy();
   drawBits(baseBits);
+
+  updateState(STATES.PLAY);
   animateBits(baseBits);
 }
 

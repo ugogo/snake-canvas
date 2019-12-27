@@ -1,8 +1,6 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-const CANVAS_WIDTH = 400;
-const CANVAS_HEIGHT = 400;
 const BIT_SIZE = 1;
 const SPEED = 100;
 const SCALE = 10;
@@ -48,8 +46,8 @@ function getCanvasRandomPoint(max, min = 0) {
 }
 
 function drawCandy(
-  x = getCanvasRandomPoint(CANVAS_WIDTH / SCALE - 1),
-  y = getCanvasRandomPoint(CANVAS_HEIGHT / SCALE - 1),
+  x = getCanvasRandomPoint(canvas.width / SCALE - 1),
+  y = getCanvasRandomPoint(canvas.height / SCALE - 1),
 ) {
   candy = [x, y];
   ctx.fillStyle = '#e5446d';
@@ -70,7 +68,7 @@ function clearBit([x, y]) {
 }
 
 function clearBits() {
-  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function updateState(nextState) {
@@ -141,9 +139,9 @@ function animateBits(bits) {
     const nextBits = [...bits, nextHead];
 
     const outOfBoundaries =
-      nextHead[0] === CANVAS_WIDTH / SCALE ||
+      nextHead[0] === canvas.width / SCALE ||
       nextHead[0] === -1 ||
-      nextHead[1] === CANVAS_HEIGHT / SCALE ||
+      nextHead[1] === canvas.height / SCALE ||
       nextHead[1] === -1;
 
     const isBitingItSelf = bits.reduce(

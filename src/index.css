@@ -36,6 +36,7 @@ body {
   margin: 0;
   background-color: var(--color3);
   color: var(--color1);
+  font-size: 0.9rem;
 }
 
 .is-hidden {
@@ -83,7 +84,6 @@ body {
 .best-score {
   margin-top: -0.5rem;
   font-weight: bold;
-  color: black;
 }
 
 .arrows {

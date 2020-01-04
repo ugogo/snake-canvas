@@ -39,6 +39,10 @@ body {
   font-size: 0.9rem;
 }
 
+p {
+  font-size: 1.7vh;
+}
+
 .is-hidden {
   display: none !important;
 }
@@ -47,8 +51,12 @@ body {
   animation: blinker 0.7s linear infinite;
 }
 
+.logo {
+  width: 20vh;
+}
+
 #canvas {
-  margin: 1.5rem 0;
+  display: block;
   border: 5px solid var(--color1);
   background-color: white;
 }
@@ -74,32 +82,33 @@ body {
 }
 
 .score-container {
-  margin-top: 1.5rem;
-  margin-bottom: 0;
+  margin: 1.5vh 0;
   font-family: pixelmix;
   text-align: center;
   text-transform: uppercase;
 }
 
 .best-score {
-  margin-top: -0.5rem;
+  margin-top: -0.5vh;
   font-weight: bold;
 }
 
 .arrows {
+  margin-top: 1.5vh;
   font-size: 0;
   text-align: center;
 }
 
 .iconBtn {
-  --size: 3.5rem;
+  --spacing: 0.5vh;
+  --size: 3rem;
 
   display: inline-block;
   width: var(--size);
   height: var(--size);
   border: 0;
   padding: 0;
-  margin: 0.3rem;
+  margin: var(--spacing);
   border-radius: 4px;
   background-size: cover;
   background-color: transparent;
